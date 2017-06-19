@@ -14,7 +14,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         //animation_1()
 //        animation_2()
-        animation_3()
+       // animation_3()
+        anitimation_4()
     }
     
     func animation_1() {
@@ -80,7 +81,7 @@ class ViewController: UIViewController {
         view.layer.addSublayer(lay)
         let dot = CALayer()
         dot.bounds = CGRect(x: 0, y: 0, width: 10, height: 10)
-        dot.backgroundColor = UIColor(white: 0.8, alpha: 1.0).cgColor
+        dot.backgroundColor = UIColor(white: 0.8, alpha: 0.1).cgColor
         dot.borderColor = UIColor.white.cgColor
         dot.borderWidth = 1.0
         dot.cornerRadius = 5.0
@@ -112,6 +113,31 @@ class ViewController: UIViewController {
         pth.close()
         var t = CGAffineTransform(scaleX: 3.0,y: 3.0)
         return pth.cgPath.copy(using: &t)!
+    }
+    
+    func anitimation_4() {
+        let lay_static = CAReplicatorLayer()
+        lay_static.bounds = CGRect(x: 0, y: 0, width: 100, height: 100)
+        lay_static.position = view.center
+        lay_static.backgroundColor = UIColor(white: 0, alpha: 0.5).cgColor
+        lay_static.cornerRadius = 10;
+        view.layer.addSublayer(lay_static)
+        let dot_static = CALayer()
+        dot_static.bounds = CGRect(x: 0, y: 0, width: 10, height: 3)
+        dot_static.cornerRadius = 1.5;
+        dot_static.backgroundColor = UIColor(white: 1, alpha: 1.0).cgColor
+        dot_static.position = CGPoint(x: 35, y: 50)
+        lay_static.addSublayer(dot_static)
+        lay_static.instanceCount = 12
+        lay_static.instanceTransform = CATransform3DMakeRotation(CGFloat(M_PI * 2) / 12, 0, 0, 1)
+        let animation_alpha = CABasicAnimation(keyPath: "opacity")
+        animation_alpha.fromValue = 0.5
+        animation_alpha.toValue = 1.0
+        animation_alpha.duration = 1.0
+        animation_alpha.repeatCount = Float.infinity
+        dot_static.add(animation_alpha, forKey: "")
+        lay_static.instanceDelay = 1.0 / 12
+
     }
     
     override func didReceiveMemoryWarning() {
