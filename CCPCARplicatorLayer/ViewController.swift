@@ -12,10 +12,11 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //animation_1()
+//        animation_1()
 //        animation_2()
-       // animation_3()
-        anitimation_4()
+//        animation_3()
+        //anitimation_4()
+        animation_5()
     }
     
     func animation_1() {
@@ -77,7 +78,6 @@ class ViewController: UIViewController {
         lay.bounds = view.bounds
         lay.backgroundColor = UIColor(white:0.0,alpha:0.75).cgColor
         lay.position = view.center
-        lay.anchorPoint = CGPoint(x: 0.5, y: 0)
         view.layer.addSublayer(lay)
         let dot = CALayer()
         dot.bounds = CGRect(x: 0, y: 0, width: 10, height: 10)
@@ -95,6 +95,8 @@ class ViewController: UIViewController {
         dot.add(move, forKey: nil)
         lay.instanceCount = 20
         lay.instanceDelay = 0.1
+        lay.instanceColor = UIColor.green.cgColor
+        lay.instanceGreenOffset = 0.1;
     }
     
     func animation_path()->CGPath {
@@ -138,6 +140,41 @@ class ViewController: UIViewController {
         dot_static.add(animation_alpha, forKey: "")
         lay_static.instanceDelay = 1.0 / 12
 
+    }
+    
+    func animation_5() {
+        let shape = CAShapeLayer()
+        shape.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        shape.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 80, height: 80)).cgPath
+        shape.fillColor = UIColor.red.cgColor
+        shape.opacity = 0.0
+        let group = CAAnimationGroup()
+        group.animations = [animation_scale(),animation_opacity()]
+        group.duration = 4.0
+        group.autoreverses = false
+        group.repeatCount = Float.infinity
+        shape.add(group, forKey: nil)
+        let lay = CAReplicatorLayer()
+        lay.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        lay.instanceDelay = 1
+        lay.instanceCount = 8
+        view.layer.addSublayer(lay)
+        lay.addSublayer(shape)
+    }
+    
+    func animation_opacity()->CABasicAnimation {
+        let animation = CABasicAnimation(keyPath: "opacity")
+        animation.fromValue = 1.0
+        animation.toValue = 0
+        return animation
+    }
+    
+    func animation_scale()->CABasicAnimation {
+        let animation = CABasicAnimation(keyPath: "transform")
+        animation.fromValue = CATransform3DScale(CATransform3DIdentity, 0, 0, 0)
+        animation.toValue = CATransform3DScale(CATransform3DIdentity, 1.0, 1.0, 0.0)
+        return animation
+        
     }
     
     override func didReceiveMemoryWarning() {
